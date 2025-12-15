@@ -1,20 +1,14 @@
 Rails.application.routes.draw do
-  resource :session
-  resources :passwords, param: :token
+  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # CRUD 以外の操作には as をつけると分かりやすいかも。
+  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
+  # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  get "/boards", to: "boards#index"
-  get "/boards/:board_id", to: "boards#show"
+  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
+  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  get "/boards/:board_id/thread/:chatThread_id", to: "chat_threads#show"
-  post "/boards/:board_id/thread", to: "chat_threads#create"
-  put "/boards/:board_id/thread/:chatThread_id/update", to: "chat_threads#update"
-  delete "/boards/:board_id/thread/:chatThread_id/delete", to: "chat_threads#destroy"
-
-  # TODO: Post に対する新規作成・更新・削除 URL は、/posts で良さそう。
-  post "/boards/:board_id/thread/:chatThread_id/posts", to: "posts#create"
-  put "/boards/:board_id/thread/:chatThread_id/posts/:id", to: "posts#update"
-  delete "/boards/:board_id/thread/:chatThread_id/posts/:id", to: "posts#destroy"
+  # Defines the root path route ("/")
+  # root "posts#index"
 end
