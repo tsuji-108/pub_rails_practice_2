@@ -4,8 +4,8 @@
 
 - users（ユーザーテーブル）
 - boards（ボードテーブル）
-- chat_threads（スレッドテーブル）
-- posts（投稿テーブル）
+- discussions（スレッドテーブル）
+- comments（投稿テーブル）
 - boards（掲示板テーブル）
 - 【保留】attachments（添付ファイル管理テーブル）
 
@@ -29,7 +29,7 @@ boards {
   TIMESTAMP    updated_at
 }
 
-chat_threads {
+discussions {
   INT          id
   INT          user_id
   INT          board_id
@@ -39,21 +39,21 @@ chat_threads {
   TIMESTAMP    updated_at
 }
 
-posts {
+comments {
   INT       id
   INT       user_id
-  INT       chat_thread_id
+  INT       discussion_id
   TEXT      content
   TIMESTAMP created_at
   TIMESTAMP updated_at
   TIMESTAMP archived_at
 }
 
-users ||--o{ chat_threads : ""
-users ||--o{ posts : ""
+users ||--o{ discussions : ""
+users ||--o{ comments : ""
 
-boards ||--o{ chat_threads : ""
-chat_threads ||--o{ posts : ""
+boards ||--o{ discussions : ""
+discussions ||--o{ comments : ""
 ```
 
 ## users（ユーザー管理テーブル）
@@ -89,15 +89,16 @@ chat_threads ||--o{ posts : ""
 
 いったん board は 1 つのみとする。
 
-### generate コマンド
+### scaffold コマンド
 
-`bin/rails generate model Board title:string description:string`
+`bin/rails generate scaffold Board title:string description:text`
 
-### create コマンド
+<!-- ### generate コマンド -->
+<!-- `bin/rails generate model Board title:string description:string` -->
+<!-- ### create コマンド -->
+<!-- `Board.create(title: "first boad title", description: "first board description")` -->
 
-`Board.create(title: "first boad title", description: "first board description")`
-
-## chat_threads（スレッド管理テーブル）
+## discussions（スレッド管理テーブル）
 
 | カラム名    | データ型     | 制約                                                  | 説明                      |
 | ----------- | ------------ | ----------------------------------------------------- | ------------------------- |
@@ -111,9 +112,7 @@ chat_threads ||--o{ posts : ""
 
 ### generate コマンド
 
-`bin/rails generate model ChatThread user:references board:references title:string description:string`
-
-`bin/rails generate model Thread` では以下のエラーが発生するため、chat_threads (ChatThread)とします。
+`bin/rails generate model Discussion user:references board:references title:string description:string`
 
 ```
 The name 'Thread' is either already used in your application or reserved by Ruby on Rails. Please choose an alternative or use --skip-collision-check or --force to skip this check and run this generator again.
@@ -121,35 +120,35 @@ The name 'Thread' is either already used in your application or reserved by Ruby
 
 ### create コマンド
 
-`ChatThread.create(user_id: 1, board_id: 1, title: "Thread title", description: "Thread description")`
+`Discussion.create(user_id: 1, board_id: 1, title: "Thread title", description: "Thread description")`
 
-## posts(スレッド内の投稿管理テーブル)
+## comments(スレッド内の投稿管理テーブル)
 
-| カラム名       | データ型  | 制約                                                  | 説明                       |
-| -------------- | --------- | ----------------------------------------------------- | -------------------------- |
-| id             | INT       | PRIMARY KEY, UNIQUE KEY                               | 投稿 ID                    |
-| user_id        | INT       | FOREIGN KEY (users)                                   | 投稿者ユーザー ID          |
-| chat_thread_id | INT       | FOREIGN KEY (chat_threads)                            | post が紐づくスレッド ID |
-| content        | TEXT      | NOT NULL                                              | 投稿内容                   |
-| created_at     | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP                             | 作成日時                   |
-| updated_at     | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | 更新日時                   |
-| archived_at     | TIMESTAMP | ON UPDATE CURRENT_TIMESTAMP                           | 削除日時                   |
+| カラム名      | データ型  | 制約                                                  | 説明                           |
+| ------------- | --------- | ----------------------------------------------------- | ------------------------------ |
+| id            | INT       | PRIMARY KEY, UNIQUE KEY                               | 投稿 ID                        |
+| user_id       | INT       | FOREIGN KEY (users)                                   | 投稿者ユーザー ID              |
+| discussion_id | INT       | FOREIGN KEY (discussions)                             | comment が紐づく discussion ID |
+| content       | TEXT      | NOT NULL                                              | 投稿内容                       |
+| created_at    | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP                             | 作成日時                       |
+| updated_at    | TIMESTAMP | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | 更新日時                       |
+| archived_at   | TIMESTAMP | ON UPDATE CURRENT_TIMESTAMP                           | 削除日時                       |
 
 archived_at に日付が入っているなら「このコメントは削除されました」の表記にする。
 
 ### generate コマンド
 
-`bin/rails generate model Post user_id:integer content:string archived_at:timestamp`
+`bin/rails generate model Comment user_id:integer content:string archived_at:timestamp`
 
 ### create コマンド
 
-`Post.create(user_id: 1, chat_thread_id: 1, content: "post content")`
-`Post.create(user_id: 1, chat_thread_id: 1, content: "テスト投稿です！")`
+`Comment.create(user_id: 1, discussion_id: 1, content: "comment content")`
+`Comment.create(user_id: 1, discussion_id: 1, content: "テスト投稿です！")`
 
 ## 【保留】attachments（添付ファイル管理テーブル）
 
 投稿にファイルを添付できるようにしようかと思ったが、いったん後で。  
-単に posts テーブルにカラムを作成して、アップロードしたファイル名 + 乱数 + timestamp で、静的アセット領域へのパスを書いておくだけでも良いかも。
+単に comments テーブルにカラムを作成して、アップロードしたファイル名 + 乱数 + timestamp で、静的アセット領域へのパスを書いておくだけでも良いかも。
 
 ## 保留にしたテーブル・機能
 
