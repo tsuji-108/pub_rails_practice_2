@@ -72,10 +72,9 @@ discussions ||--o{ comments : ""
 
 `bin/rails generate authentication`
 
-### create コマンド
-
-`User.create(email_address: "user@example.org", password: "secret", password_confirmation: "secret")`
-`User.create(email_address: "user2@example.org", password: "secret2", password_confirmation: "secret2")`
+<!-- ### create コマンド -->
+<!-- `User.create(email_address: "user@example.org", password: "secret", password_confirmation: "secret")` -->
+<!-- `User.create(email_address: "user2@example.org", password: "secret2", password_confirmation: "secret2")` -->
 
 ## boards（掲示板テーブル）
 
@@ -110,17 +109,14 @@ discussions ||--o{ comments : ""
 | created_at  | TIMESTAMP    | DEFAULT CURRENT_TIMESTAMP                             | 作成日時                  |
 | updated_at  | TIMESTAMP    | DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP | 更新日時                  |
 
-### generate コマンド
+### scaffold コマンド
 
-`bin/rails generate model Discussion user:references board:references title:string description:string`
+`bin/rails generate scaffold Discussion title:string description:text user:references board:references`
 
-```
-The name 'Thread' is either already used in your application or reserved by Ruby on Rails. Please choose an alternative or use --skip-collision-check or --force to skip this check and run this generator again.
-```
-
-### create コマンド
-
-`Discussion.create(user_id: 1, board_id: 1, title: "Thread title", description: "Thread description")`
+<!-- ### generate コマンド -->
+<!-- `bin/rails generate model Discussion user:references board:references title:string description:string` -->
+<!-- ### create コマンド -->
+<!-- `Discussion.create(user_id: 1, board_id: 1, title: "Thread title", description: "Thread description")` -->
 
 ## comments(スレッド内の投稿管理テーブル)
 
@@ -136,14 +132,15 @@ The name 'Thread' is either already used in your application or reserved by Ruby
 
 archived_at に日付が入っているなら「このコメントは削除されました」の表記にする。
 
-### generate コマンド
+### scaffold コマンド
 
-`bin/rails generate model Comment user_id:integer content:string archived_at:timestamp`
+`bin/rails generate scaffold Comment content:text archived_at:datetime user:references discussion:references`
 
-### create コマンド
-
-`Comment.create(user_id: 1, discussion_id: 1, content: "comment content")`
-`Comment.create(user_id: 1, discussion_id: 1, content: "テスト投稿です！")`
+<!-- ### generate コマンド -->
+<!-- `bin/rails generate model Comment user_id:integer content:string archived_at:timestamp` -->
+<!-- ### create コマンド -->
+<!-- `Comment.create(user_id: 1, discussion_id: 1, content: "comment content")` -->
+<!-- `Comment.create(user_id: 1, discussion_id: 1, content: "テスト投稿です！")` -->
 
 ## 【保留】attachments（添付ファイル管理テーブル）
 
