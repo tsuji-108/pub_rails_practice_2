@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :discussions
   resources :boards
   resource :session
   resources :passwords, param: :token
