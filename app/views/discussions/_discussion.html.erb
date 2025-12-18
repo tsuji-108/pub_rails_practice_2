@@ -1,22 +1,22 @@
-<div id="<%= dom_id discussion %>">
-  <div>
-    <strong>Title:</strong>
-    <%= discussion.title %>
-  </div>
+<% show_actions = local_assigns.fetch(:show_actions, false) %>
 
-  <div>
-    <strong>Description:</strong>
-    <%= discussion.description %>
-  </div>
+<div id="<%= dom_id discussion %>" class="card shadow-sm h-100">
+  <div class="card-body">
+    <h2 class="card-title h5"><%= discussion.title %></h2>
+    <% if discussion.description.present? %>
+      <p class="card-text"><%= simple_format(discussion.description) %></p>
+    <% else %>
+      <p class="card-text text-muted fst-italic mb-0">説明はまだ登録されていません。</p>
+    <% end %>
 
-  <div>
-    <strong>User:</strong>
-    <%= discussion.user_id %>
+    <div class="d-flex flex-wrap gap-2 mt-3">
+      <span class="badge bg-light text-dark">ユーザーID: <%= discussion.user_id %></span>
+      <span class="badge bg-light text-dark">ボードID: <%= discussion.board_id %></span>
+    </div>
   </div>
-
-  <div>
-    <strong>Board:</strong>
-    <%= discussion.board_id %>
-  </div>
-
+  <% if show_actions %>
+    <div class="card-footer bg-white border-0 pt-0 text-end">
+      <%= link_to "詳細", discussion, class: "btn btn-outline-primary btn-sm" %>
+    </div>
+  <% end %>
 </div>

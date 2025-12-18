@@ -1,11 +1,10 @@
 <% content_for :title, "New board" %>
 
-<h1>New board</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">New Board</h1>
+  <%= link_to "一覧に戻る", boards_path, class: "btn btn-outline-secondary" %>
+</div>
 
-<%= render "form", board: @board %>
-
-<br>
-
-<div>
-  <%= link_to "Back to boards", boards_path %>
+<div class="mb-4">
+  <%= render "form", board: @board %>
 </div>

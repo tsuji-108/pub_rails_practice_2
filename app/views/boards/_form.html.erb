@@ -1,27 +1,27 @@
-<%= form_with(model: board) do |form| %>
-  <% if board.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(board.errors.count, "error") %> prohibited this board from being saved:</h2>
+<%= form_with(model: board, class: "card shadow-sm") do |form| %>
+  <div class="card-body">
+    <% if board.errors.any? %>
+      <div class="alert alert-danger" role="alert">
+        <h2 class="h6 mb-3"><%= pluralize(board.errors.count, "件のエラー") %>により保存できませんでした。</h2>
+        <ul class="mb-0">
+          <% board.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-      <ul>
-        <% board.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <div class="mb-3">
+      <%= form.label :title, class: "form-label" %>
+      <%= form.text_field :title, class: "form-control", placeholder: "タイトル" %>
     </div>
-  <% end %>
 
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
+    <div class="mb-3">
+      <%= form.label :description, class: "form-label" %>
+      <%= form.text_area :description, class: "form-control", rows: 4, placeholder: "概要" %>
+    </div>
   </div>
-
-  <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.textarea :description %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="card-footer bg-white border-0 pt-0 text-end">
+    <%= form.submit class: "btn btn-primary" %>
   </div>
 <% end %>

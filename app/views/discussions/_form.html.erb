@@ -1,37 +1,38 @@
-<%= form_with(model: discussion) do |form| %>
-  <% if discussion.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(discussion.errors.count, "error") %> prohibited this discussion from being saved:</h2>
+<%= form_with(model: discussion, class: "card shadow-sm") do |form| %>
+  <div class="card-body">
+    <% if discussion.errors.any? %>
+      <div class="alert alert-danger" role="alert">
+        <h2 class="h6 mb-3"><%= pluralize(discussion.errors.count, "件のエラー") %>により保存できませんでした。</h2>
+        <ul class="mb-0">
+          <% discussion.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-      <ul>
-        <% discussion.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <div class="mb-3">
+      <%= form.label :title, class: "form-label" %>
+      <%= form.text_field :title, class: "form-control", placeholder: "タイトル" %>
     </div>
-  <% end %>
 
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
+    <div class="mb-3">
+      <%= form.label :description, class: "form-label" %>
+      <%= form.text_area :description, class: "form-control", rows: 4, placeholder: "概要" %>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <%= form.label :user_id, class: "form-label" %>
+        <%= form.number_field :user_id, class: "form-control", min: 1, placeholder: "ユーザーID" %>
+      </div>
+      <div class="col-md-6">
+        <%= form.label :board_id, class: "form-label" %>
+        <%= form.number_field :board_id, class: "form-control", min: 1, placeholder: "ボードID" %>
+      </div>
+    </div>
   </div>
-
-  <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.textarea :description %>
-  </div>
-
-  <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
-  </div>
-
-  <div>
-    <%= form.label :board_id, style: "display: block" %>
-    <%= form.text_field :board_id %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="card-footer bg-white border-0 pt-0 text-end">
+    <%= form.submit class: "btn btn-primary" %>
   </div>
 <% end %>
