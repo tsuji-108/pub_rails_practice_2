@@ -72,9 +72,10 @@ discussions ||--o{ comments : ""
 
 `bin/rails generate authentication`
 
-<!-- ### create コマンド -->
-<!-- `User.create(email_address: "user@example.org", password: "secret", password_confirmation: "secret")` -->
-<!-- `User.create(email_address: "user2@example.org", password: "secret2", password_confirmation: "secret2")` -->
+### create コマンド
+
+`User.create(email_address: "user@example.org", password: "secret", password_confirmation: "secret")`
+`User.create(email_address: "user2@example.org", password: "secret2", password_confirmation: "secret2")`
 
 ## boards（掲示板テーブル）
 
