@@ -1,11 +1,10 @@
 <% content_for :title, "New discussion" %>
 
-<h1>New discussion</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">New Discussion</h1>
+  <%= link_to "一覧に戻る", discussions_path, class: "btn btn-outline-secondary" %>
+</div>
 
-<%= render "form", discussion: @discussion %>
-
-<br>
-
-<div>
-  <%= link_to "Back to discussions", discussions_path %>
+<div class="mb-4">
+  <%= render "form", discussion: @discussion %>
 </div>
