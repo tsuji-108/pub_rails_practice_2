@@ -75,7 +75,7 @@ discussions ||--o{ comments : ""
 ### create コマンド
 
 `User.create(email_address: "user@example.org", password: "secret", password_confirmation: "secret")`
-`User.create(email_address: "user2@example.org", password: "secret2", password_confirmation: "secret2")`
+`User.create(email_address: "user2@example.org", password: "secret", password_confirmation: "secret")`
 
 ## boards（掲示板テーブル）
 
