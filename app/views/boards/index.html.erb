@@ -1,16 +1,20 @@
-<p style="color: green"><%= notice %></p>
-
 <% content_for :title, "Boards" %>
 
-<h1>Boards</h1>
-
-<div id="boards">
-  <% @boards.each do |board| %>
-    <%= render board %>
-    <p>
-      <%= link_to "Show this board", board %>
-    </p>
-  <% end %>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">Boards</h1>
+  <%= link_to "New board", new_board_path, class: "btn btn-primary" %>
 </div>
 
-<%= link_to "New board", new_board_path %>
+<% if @boards.any? %>
+  <div id="boards" class="row row-cols-1 row-cols-md-2 g-4">
+    <% @boards.each do |board| %>
+      <div class="col">
+        <%= render partial: "board", locals: { board: board, show_actions: true } %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="alert alert-info" role="alert">
+    まだボードがありません。最初のボードを作成しましょう。
+  </div>
+<% end %>
