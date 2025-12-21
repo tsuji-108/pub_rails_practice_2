@@ -22,10 +22,13 @@
     </div>
 
     <div class="row g-3">
-      <div class="col-md-6">
-        <%= form.label :user_id, class: "form-label" %>
-        <%= form.number_field :user_id, class: "form-control", min: 1, placeholder: "ユーザーID" %>
-      </div>
+      <% show_user = local_assigns.fetch(:show_user, true) %>
+      <% if show_user %>
+        <div class="col-md-6">
+          <%= form.label :user_id, class: "form-label" %>
+          <%= form.number_field :user_id, class: "form-control", min: 1, placeholder: "ユーザーID" %>
+        </div>
+      <% end %>
       <div class="col-md-6">
         <%= form.label :board_id, class: "form-label" %>
         <%= form.number_field :board_id, class: "form-control", min: 1, placeholder: "ボードID" %>

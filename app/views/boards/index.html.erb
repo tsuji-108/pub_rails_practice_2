@@ -1,8 +1,8 @@
 <% content_for :title, "Boards" %>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-  <h1 class="h3 mb-0">Boards</h1>
-  <%= link_to "New board", new_board_path, class: "btn btn-primary" %>
+  <h1 class="h3 mb-0">掲示板一覧</h1>
+  <%= link_to "掲示板を作成する", new_board_path, class: "btn btn-primary" %>
 </div>
 
 <% if @boards.any? %>
