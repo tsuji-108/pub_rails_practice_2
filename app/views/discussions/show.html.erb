@@ -2,7 +2,7 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
   <h1 class="h3 mb-0"><%= @discussion.title %> スレッド詳細</h1>
-  <%= link_to "掲示板(ID: #{discussion.board_id})に戻る", "/boards/#{@discussion.board_id}", class: "btn btn-outline-secondary" %>
+  <%= link_to "掲示板(ID: #{@discussion.board_id})に戻る", "/boards/#{@discussion.board_id}", class: "btn btn-outline-secondary" %>
 </div>
 
 <%= render partial: "discussion", locals: { discussion: @discussion, show_actions: false } %>
@@ -11,3 +11,21 @@
   <%= link_to "編集", edit_discussion_path(@discussion), class: "btn btn-secondary" %>
   <%= button_to "削除", @discussion, method: :delete, data: { turbo_confirm: "本当に削除しますか？" }, class: "btn btn-danger" %>
 </div>
+
+<hr>
+
+<div class="mt-4">
+  <h2 class="h5 mb-3">コメント一覧</h2>
+  <% if @discussion.comments.any? %>
+    <div class="row g-3">
+      <% @discussion.comments.each do |comment| %>
+        <div class="col-12 col-md-6">
+          <%= render partial: "comments/comment", locals: { comment: comment, show_actions: false } %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-muted">まだコメントはありません。</p>
+  <% end %>
+</div>
+
