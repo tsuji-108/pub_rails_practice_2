@@ -12,7 +12,7 @@ class DiscussionsController < ApplicationController
 
   # GET /discussions/new
   def new
-    @discussion = Discussion.new
+    @discussion = Discussion.new(board_id: params[:board_id])
   end
 
   # GET /discussions/1/edit
