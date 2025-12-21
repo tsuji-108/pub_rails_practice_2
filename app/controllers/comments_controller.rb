@@ -55,11 +55,12 @@ class CommentsController < ApplicationController
 
   # DELETE /comments/1 or /comments/1.json
   def destroy
-    @comment.destroy!
+    discussion = @comment.discussion
+    @comment.update!(archived_at: Time.current)
 
     respond_to do |format|
-      format.html { redirect_to comments_path, notice: "Comment was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
+      format.html { redirect_to discussion, notice: "コメントを削除しました。", status: :see_other }
+      format.json { render json: @comment, status: :ok }
     end
   end
 
@@ -71,6 +72,6 @@ class CommentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def comment_params
-      params.require(:comment).permit(:content, :archived_at, :discussion_id)
+      params.require(:comment).permit(:content, :discussion_id)
     end
 end

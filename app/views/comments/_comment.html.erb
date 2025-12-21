@@ -5,7 +5,7 @@
     <div class="d-flex flex-wrap gap-2 mt-3">
       <span class="badge bg-light text-dark">ユーザーID: <%= comment.user_id %></span>
       <span class="badge bg-light text-dark">ディスカッションID: <%= comment.discussion_id %></span>
-      <span class="badge <%= comment.archived_at.present? ? "bg-success" : "bg-secondary" %>">
+      <span class="badge <%= comment.archived_at.present? ? "bg-danger" : "bg-secondary" %>">
         <%= comment.archived_at.present? ? "アーカイブ済み" : "未アーカイブ" %>
       </span>
     </div>
@@ -17,7 +17,7 @@
     <% end %>
 
     <% if !comment.archived_at.present? %>
-      <button class="btn btn-sm btn-danger">削除する</button>
+      <%= button_to "削除する", comment_path(comment), method: :delete, data: { turbo_confirm: "本当に削除しますか？", confirm: "本当に削除しますか？" }, class: "btn btn-sm btn-danger" %>
     <% end %>
 
   </div>
