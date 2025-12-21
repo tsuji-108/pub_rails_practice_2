@@ -22,13 +22,19 @@ class CommentsController < ApplicationController
   # POST /comments or /comments.json
   def create
     @comment = Comment.new(comment_params)
+    @comment.user = Current.user if defined?(Current) && Current.user.present?
+    if params[:discussion_id].present?
+      @comment.discussion_id = params[:discussion_id]
+    end
 
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to @comment, notice: "Comment was successfully created." }
+        format.html { redirect_to @comment.discussion, notice: "コメントを投稿しました。" }
         format.json { render :show, status: :created, location: @comment }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        # On failure, render the discussion show so user can correct the form inline
+        @discussion = @comment.discussion || Discussion.find_by(id: comment_params[:discussion_id])
+        format.html { render "discussions/show", status: :unprocessable_entity }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
@@ -60,11 +66,11 @@ class CommentsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_comment
-      @comment = Comment.find(params.expect(:id))
+      @comment = Comment.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def comment_params
-      params.expect(comment: [ :content, :archived_at, :user_id, :discussion_id ])
+      params.require(:comment).permit(:content, :archived_at, :discussion_id)
     end
 end

@@ -8,6 +8,7 @@ class DiscussionsController < ApplicationController
 
   # GET /discussions/1 or /discussions/1.json
   def show
+    @comment = Comment.new(discussion: @discussion)
   end
 
   # GET /discussions/new

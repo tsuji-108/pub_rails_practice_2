@@ -17,9 +17,9 @@
 <div class="mt-4">
   <h2 class="h5 mb-3">コメント一覧</h2>
   <% if @discussion.comments.any? %>
-    <div class="row g-3">
+    <div class="list-group">
       <% @discussion.comments.each do |comment| %>
-        <div class="col-12 col-md-6">
+        <div class="list-group-item d-flex justify-content-between align-items-start">
           <%= render partial: "comments/comment", locals: { comment: comment, show_actions: false } %>
         </div>
       <% end %>
@@ -29,3 +29,6 @@
   <% end %>
 </div>
 
+<br>
+
+<%= render partial: "comments/form", locals: { comment: @comment } %>

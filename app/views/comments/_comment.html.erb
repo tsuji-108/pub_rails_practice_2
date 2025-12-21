@@ -1,14 +1,7 @@
 <% show_actions = local_assigns.fetch(:show_actions, false) %>
 
-<div id="<%= dom_id comment %>" class="card shadow-sm h-100">
-  <div class="card-body">
-    <h2 class="card-title h5">コメント</h2>
-    <% if comment.content.present? %>
-      <p class="card-text"><%= simple_format(comment.content) %></p>
-    <% else %>
-      <p class="card-text text-muted fst-italic mb-0">本文はまだ登録されていません。</p>
-    <% end %>
-
+<div>
+  <div>
     <div class="d-flex flex-wrap gap-2 mt-3">
       <span class="badge bg-light text-dark">ユーザーID: <%= comment.user_id %></span>
       <span class="badge bg-light text-dark">ディスカッションID: <%= comment.discussion_id %></span>
@@ -16,10 +9,16 @@
         <%= comment.archived_at.present? ? "アーカイブ済み" : "未アーカイブ" %>
       </span>
     </div>
+
+    <% if comment.archived_at.present? %>
+      <p class="card-text">本投稿は削除されました</p>
+    <% else %>
+      <p class="card-text"><%= simple_format(comment.content) %></p>
+    <% end %>
+
+    <% if !comment.archived_at.present? %>
+      <button class="btn btn-sm btn-danger">削除する</button>
+    <% end %>
+
   </div>
-  <% if show_actions %>
-    <div class="card-footer bg-white border-0 pt-0 text-end">
-      <%= link_to "詳細", comment, class: "btn btn-outline-primary btn-sm" %>
-    </div>
-  <% end %>
 </div>
