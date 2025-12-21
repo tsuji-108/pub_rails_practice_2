@@ -21,7 +21,7 @@ class DiscussionsController < ApplicationController
 
   # POST /discussions or /discussions.json
   def create
-    @discussion = Discussion.new(discussion_params)
+    @discussion = Discussion.new(discussion_params.merge(user: Current.user))
 
     respond_to do |format|
       if @discussion.save
@@ -65,6 +65,6 @@ class DiscussionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def discussion_params
-      params.expect(discussion: [ :title, :description, :user_id, :board_id ])
+      params.expect(discussion: [ :title, :description, :board_id ])
     end
 end

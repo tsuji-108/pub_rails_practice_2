@@ -1,10 +1,10 @@
-<% content_for :title, "New discussion" %>
+<% content_for :title, "新規スレッド作成" %>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-  <h1 class="h3 mb-0">New Discussion</h1>
-  <%#= link_to "一覧に戻る", discussions_path, class: "btn btn-outline-secondary" %>
+  <h1 class="h3 mb-0">新規スレッド作成</h1>
+  <%= link_to "掲示板(ID: #{params[:board_id]})に戻る", "/boards/#{params[:board_id]}", class: "btn btn-outline-secondary" %>
 </div>
 
 <div class="mb-4">
-  <%= render "form", discussion: @discussion %>
+  <%= render "form", discussion: @discussion, show_user: false %>
 </div>
